@@ -1,0 +1,1189 @@
+\documentclass[letterpaper,twocolumn,notitlepage]{article}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{%
+  tikz,
+  float,
+  amssymb,
+  graphicx,
+  fullpage,
+  indentfirst,
+  mathrsfs,
+  color,
+  empheq,
+  mathtools,
+  marginnote,
+  fancyvrb
+}
+\usepackage[compact]{titlesec}
+\usepackage[titles]{tocloft}
+\usepackage{%
+  enumerate,
+  amsthm,
+  thmtools,
+  framed,
+  caption,
+  pstricks,
+  pgf,
+  pgffor,
+  enumitem,
+  sectsty,
+  setspace,
+  amsmath,
+  times,
+  pgfplots
+}
+\usepackage[margin=0.5in]{geometry}
+\usepackage[english]{babel}
+\usepackage{../sty/3dplot}
+
+\usepgfmodule{shapes}
+\usepgfmodule{plot}
+
+%\usepackage{titlesec}
+%\titleformat{\section}{\large\bfseries\sf}{\thesection}{1em}{}
+%\titleformat{\subsection}{\normalsize\bfseries\sffamily}{\thesection}{1em}{}
+%\allsectionsfont{\bfseries\sffamily\normalsize}
+
+\sectionfont{\fontsize{9pt}{9pt}\selectfont\bfseries\sffamily}
+\subsectionfont{\fontsize{8pt}{8pt}\selectfont\sffamily}
+\paragraphfont{\fontsize{7pt}{7pt}\selectfont\bfseries}
+
+\usetikzlibrary{%
+  positioning,
+  decorations,
+  snakes,
+  decorations.pathmorphing,
+  matrix,
+  calc,
+  plotmarks,
+  shapes,
+  arrows,
+  decorations,
+  arrows.meta
+}
+
+\makeatletter
+ \renewcommand\subsection{\@startsection{section}{1}{\z@}%
+ {-3.5ex \@plus-1ex \@minus-.2ex}%
+ {2.3ex \@plus.2ex}%
+ {\fontsize{8pt}{8pt}\selectfont\sffamily}}
+ \makeatother
+
+\setlength{\parindent}{0in}
+\pagestyle{empty}
+\setlength\cftparskip{-3pt}
+\setlength\cftbeforesecskip{0pt}
+%\setlength\cftaftertoctitleskip{0pt}
+%\setlength\cftXindent{0.2in}
+\cftsetindents{figure}{0em}{1.5em}
+\makeatletter
+\renewcommand{\@dotsep}{4.5}
+\renewcommand{\cftdotsep}{4.5}
+\renewcommand{\cftsecdotsep}{4.5}
+\renewcommand{\@tocrmarg}{4.55em}
+\makeatother
+\renewcommand\cftsecfont{\normalfont}
+\renewcommand\cftsecpagefont{\normalfont}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftsecdotsep}}
+%\renewcommand\cftsecdotsep{\cftdot}
+%\renewcommand\cftsubsecdotsep{\cftdot}
+
+\tikzstyle{squareblock}=[draw, fill=white!50, rectangle, minimum height=1cm, minimum width=2cm, inner sep= 2mm]
+\tikzstyle{roundblock}=[draw, circle, fill=white!50, minimum height=1cm, inner sep= 1mm]
+\tikzstyle{whitesum} = [draw, fill=white!40, circle, minimum width=0.6cm, inner sep= 1mm]
+\tikzstyle{input} = [coordinate]
+\tikzstyle{output} = [coordinate]
+\tikzstyle{tee} = [coordinate]
+
+\tikzstyle{squareblock}=[draw, fill=white!50, rectangle, minimum height=1cm, minimum width=1.0cm, inner sep= 2mm]
+\tikzstyle{mux}=[draw, fill=black!100, rectangle, minimum height=1cm, minimum width=0.1mm, inner sep= 0mm]
+\tikzstyle{roundblock}=[draw, circle, fill=white!50, minimum height=1mm, inner sep= 1mm]
+\tikzstyle{whitesum} = [draw, fill=white!40, circle, minimum width=0.6cm, inner sep= 1mm]
+\tikzstyle{input} = [coordinate]
+\tikzstyle{output} = [coordinate]
+\tikzstyle{tee} = [coordinate]
+\tikzstyle{block} = [draw, rectangle, minimum height=1cm, minimum width=2cm]
+\tikzstyle{sum} = [draw, circle, node distance=1cm]
+\tikzstyle{modelinput} = [coordinate]
+\tikzstyle{modeloutput} = [coordinate]
+\tikzstyle{regionoutput} = [coordinate]
+
+\tikzstyle{smoothblock}=[draw, fill=blue!50, rectangle, minimum height=1cm, minimum width=2cm, rounded corners=0.5mm, inner sep= 2mm]
+\tikzstyle{yellowsum} = [draw, fill=yellow!40, circle, minimum width=1cm, inner sep= 1mm]
+\tikzstyle{feedback} = [draw, fill=green!40, circle, minimum width=1cm]
+
+%\setlist[2]{noitemsep} % sets the itemsep and parsep for all level two lists to 0
+\setenumerate{noitemsep}
+\setitemize{noitemsep}
+
+\captionsetup{font=scriptsize}
+
+\newlength\dlf{}
+\newcommand\alignedbox[2]{%
+  % #1 = before alignment
+  % #2 = after alignment
+  &
+  \begingroup
+  \settowidth\dlf{$\displaystyle #1$}
+  \addtolength\dlf{\fboxsep+\fboxrule}
+  \hspace{-\dlf}
+  \fcolorbox{black}{white}{$\displaystyle #1 #2$}
+  \endgroup
+}
+
+\titlespacing\section{4pt}{2pt plus 0pt minus 2pt}{0pt plus 2pt minus 2pt}
+\titlespacing\subsection{4pt}{2pt plus 0pt minus 2pt}{0pt plus 2pt minus 2pt}
+\titlespacing\subsubsection{4pt}{2pt plus 0pt minus 2pt}{0pt plus 2pt minus 2pt}
+
+\setlength{\belowcaptionskip}{-20pt}
+
+\pagestyle{myheadings}
+\markboth{\hfill Dynamics Note Sheet \hfill Daniel Wiese}{Daniel Wiese \hfill\hspace{0.6in} Dynamics Note Sheet \hfill}
+\setlength{\headsep}{12pt}
+\setlength{\voffset}{-12pt}
+
+\begin{document}
+
+  \fontsize{7pt}{7pt}\selectfont
+  \abovedisplayskip=2pt plus 1pt minus 1pt
+  \belowdisplayskip=2pt plus 1pt minus 1pt
+  \belowdisplayshortskip=2pt plus 1pt minus 1pt
+
+  \section*{Single Particle}
+
+  \begin{figure}[H]
+    \begin{center}
+      \begin{tikzpicture}[>=Stealth,scale=0.7]
+        \fontsize{7pt}{7pt}\selectfont
+        \node[circle, fill=black, inner sep=0pt,minimum size=4pt, label=$m$] (m) at (0,0){};
+        \node[circle,fill=black, inner sep=0pt,minimum size=4pt, label=$O$] (O) at (-2,-1){};
+        \node[circle,fill=black, inner sep=0pt,minimum size=4pt, label=$B$] (B) at (-1,-2){};
+        \draw [->] (-2,-1)--(0,0) node[pos=0.5, above] {$\underline{r}_{Om}$};
+        \draw [->] (0,0)--(2,1) node[pos=0.5, above] {$\underline{f}$};
+        \draw [->] (0,0)--(1,-1) node[pos=0.5, right] {$\underline{v}$};
+        \draw [->] (-2,-1)--(-1,-2) node[pos=0.5, left] {$\underline{r}_{OB}$};
+        \draw [->] (-1,-2)--(0,0) node[pos=0.5, right] {$\underline{r}_{Bm}$};
+      \end{tikzpicture}
+      \caption{\textbf{Point mass $m$ under action of force $\underline{f}$. Point $O$ is fixed in inertial space, and point $B$ is a general point, not necessarily fixed in inertial space.}}
+    \end{center}
+  \end{figure}
+
+  \begin{equation*}
+    \begin{aligned}[c]
+      \underline{p}&=m\underline{v} \\
+      \underline{f}&=\frac{d\underline{p}}{dt} \\
+      \tau_{O}&=\underline{r}_{Om}\times\underline{f} \\
+      \alignedbox{\underline{h}_{O}}{=\underline{r}_{Om}\times\underline{p}}
+    \end{aligned}
+    \hspace{0.5in}
+    \begin{aligned}[c]
+      \underline{\tau}_{O}&=\frac{d}{dt}\underline{h}_{O} \\
+      \underline{\tau}_{B}&=\underline{\tau}_{O}-\underline{r}_{OB}\times\underline{f} \\
+      \underline{h}_{B}&=\underline{h}_{O}-\underline{r}_{OB}\times\underline{p} \\
+      \underline{\tau}_{B}&=\frac{d}{dt}\underline{h}_{B}+\underline{v}_{B}\times\underline{p}
+    \end{aligned}
+  \end{equation*}
+
+  \section*{Kinematics of Rigid Bodies}
+
+  \begin{figure}[H]
+    \begin{center}
+      \begin{tikzpicture}[>=Stealth,scale=0.9]
+        \fontsize{7pt}{7pt}\selectfont
+        \pgfmathsetseed{3}
+        \draw[fill=yellow!70!black] plot [smooth cycle, samples=8,domain={1:8}] (\x*360/8+5*rnd:0.7cm+0.7cm*rnd) {};
+        \node[circle, fill=black, inner sep=0pt,minimum size=4pt, label=$C$] (m) at (-0.2,-0.3){};
+        \node[circle,fill=black, inner sep=0pt,minimum size=4pt, label=$O$] (O) at (-4,0){};
+        \node[circle,fill=black, inner sep=0pt,minimum size=4pt, label=$B$] (B) at (-3,-1){};
+        \node[circle,fill=black, inner sep=0pt,minimum size=4pt, label=$P$] (P) at (0.5,0.7){};
+        \draw [->] (-3,-1)--(-0.2,-0.3) node[pos=0.5, above] {$\underline{r}_{BC}$};
+        \draw [->] (-0.2,-0.3)--(0.5,0.7) node[pos=0.3, right] {$\underline{r}_{CP}$};
+        \draw [->] (-0.2,-0.3)--(2,-0.5) node[pos=0.7, right, above] {$\underline{v}_{C}$};
+        \draw [->] (-3,-1)--(-2,0.5) node[pos=0.5, left] {$\underline{v}_{B}$};
+      \end{tikzpicture}
+      \caption{\textbf{Rigid body. $O$ is inertially fixed in space, and point $B$ is a general point, which can be moving, about which we may take moments. Point $C$ is the body center of mass, and point $P$ is some other point fixed on the body}}
+    \end{center}
+  \end{figure}
+
+  Note that the vector notation $r_{BC}$ means a vector from point $B$ to point $C$.
+  \begin{equation*}
+    \begin{aligned}[c]
+      \alignedbox{\underline{P}}{=m\underline{v}_{C}} \\
+      \underline{\tau}_{O}^{\text{ext}}&=\frac{d}{dt}\underline{H}_{O} \\
+      \alignedbox{\underline{\tau}_{B}^{\text{ext}}}{=\frac{d}{dt}\underline{H}_{B}+\underline{v}_{B}\times\underline{P}} \\
+      \underline{H}_{B}&=[I]_{B}\omega
+    \end{aligned}
+    \hspace{0.5in}
+    \begin{aligned}[c]
+      \alignedbox{\underline{F}^{\text{ext}}}{=\frac{d}{dt}\underline{P}} \\
+      \alignedbox{\underline{H}_{B}}{=\underline{H}_{C}+\underline{r}_{BC}\times\underline{P}} \\
+      \underline{H}_{B}&=\underline{H}_{O}+\underline{r}_{BO}\times\underline{P} \\
+      \alignedbox{\underline{v}_{P}}{=\underline{v}_{C}+\underline{\omega}\times\underline{r}_{CP}}
+    \end{aligned}
+  \end{equation*}
+
+  \begin{empheq}[]{alignat*=3}
+    &\mbox{\textbf{For non-holonomic (rolling coin):}} &\hspace{0.5in} \underline{\tau}_{B}^{\text{ext}}=\frac{d}{dt}\underline{H}_{C}+\underline{r}_{BC}\times\frac{d}{dt}\underline{P}
+  \end{empheq}
+
+  To find principal axes
+
+  \begin{equation*}
+    I_{\text{principal}}-\lambda I=0
+  \end{equation*}
+
+  \section*{Impulse}
+
+  Take linear and angular momentum principle for a rigid body
+  \begin{equation*}
+    \begin{split}
+      \underline{F}^{\text{ext}}&=\frac{d}{dt}\underline{P} \\[4pt]
+      \underline{\tau}_{B}^{\text{ext}}&=\frac{d}{dt}\underline{H}_{B}+\underline{v}_{B}\times\underline{P}
+    \end{split}
+  \end{equation*}
+  and separate them and integrate them over a short period of time
+  \begin{equation*}
+    \begin{split}
+      \int_{t=0^{-}}^{t=0^{+}}\underline{F}^{\text{ext}}dt&=\int_{\underline{P}(0^{-})}^{\underline{P}(0^{+})}d\underline{P} \\
+      \int_{t=0^{-}}^{t=0^{+}}\underline{\tau}_{B}^{\text{ext}}dt&=\int_{\underline{H}_{B}(0^{-})}^{\underline{H}_{B}(0^{+})}d\underline{H}_{B}+\int_{t=0^{-}}^{t=0^{+}}\underline{v}_{B}\times\underline{P}dt
+    \end{split}
+  \end{equation*}
+
+  \begin{equation*}
+    \Delta\underline{P}=\int_{t=0^{-}}^{t=0^{+}}\underline{F}^{\text{ext}}dt
+  \end{equation*}
+  \textit{Remember when integrating from $t=0^{-}$ to $t=0^{+}$ constant forces like gravity integrate to zero}
+
+  \section*{Work and Energy Principles}
+
+  KE of rigid body rotating about CM:\@
+  \begin{equation*}
+    T=\frac{1}{2}Mv_{G}^{2}+\frac{1}{2}\left(I_{x}\omega_{x}^{2}+I_{y}\omega_{y}^{2}+I_{z}\omega_{z}^{2}\right)
+  \end{equation*}
+
+  \section*{Finding Center of Mass and Moment of Inertia}
+
+  $P$ is a general point.
+  \begin{empheq}[]{alignat*=3}
+    &\mbox{\textbf{Parallel axis theorem:}} &\hspace{0.5in} I_{P}=I_{C}+Mh^{2}
+  \end{empheq}
+
+  \begin{equation*}
+    [I]_{P}=[I]_{C}+M
+    \begin{bmatrix}
+      b^{2}+c^{2} & -ab & -ac \\
+      -ab & a^{2}+c^{2} & -bc \\
+      -ac & -bc & a^{2}+b^{2}
+    \end{bmatrix}
+  \end{equation*}
+
+  \begin{empheq}[]{alignat*=3}
+    &\mbox{\textbf{Moments of inertia}} &\hspace{0.5in} I_{x}&=\int_{m}(y^{2}+z^{2})dm \\
+    &\mbox{\textbf{Products of inertia}} &\hfill I_{xy}&=\int_{V}\rho{}xydV \\
+    & &\hfill I_{x}&=\rho\int_{V}(y^{2}+z^{2})dV \\
+    &\mbox{\textbf{x CM:}} &\hfill x_{cm}&=\frac{\sum_{i}A_{i}r_{i}}{\sum_{i}A_{i}} \\
+    &\mbox{\textbf{y CM:}} &\hfill z_{cm}&=\frac{\int_{m}zdm}{\int_{m}dm} \\
+    &\mbox{\textbf{z CM:}} &\hfill z_{cm}&=\frac{\int_{V}zdV}{\int_{V}dV}
+  \end{empheq}
+
+  \subsection*{Areas, Volumes, Centroids, Moments of Inertia}
+
+  \begin{empheq}[]{alignat*=3}
+    & &\hfill A_{\text{sphere}}=4\pi{}r^{2} \\
+    & &\hfill V_{\text{sphere}}=\frac{4}{3}\pi{}r^{3} \\
+    & &\hfill V_{\text{cone}}=\frac{1}{3}\pi{}r^{2}h \\
+    &\mbox{\textbf{Through axis of rot.}} &\hfill I_{\text{cylinder,}z}=\frac{1}{2}mr^{2} \\
+    &\mbox{\textbf{Through center}} &I_{\text{cylinder,}x,y}=\frac{1}{12}m(3r^{2}+h^{2}) \\
+    &\mbox{\textbf{Rod length $L$ about end:}} &\hfill I_{\text{rod,end}}=\frac{1}{3}mL^{2} \\
+    &\mbox{\textbf{Rod length $L$ about center:}} &\hfill I_{\text{rod,center}}=\frac{1}{12}mL^{2} \\
+    &\mbox{\textbf{Sphere radius $r$:}} &\hfill I_{\text{sphere}}=\frac{2}{5}mr^{2} \\
+    &\mbox{\textbf{Cone}} &\hfill I_{\text{cone},z}=\frac{3}{10}mr^{2} \\
+    &\mbox{\textbf{Cube thru cent $l(x),w(y),h(z)$}} &\hfill I_{\text{cube},x}=\frac{1}{12}(w^{2}+h^{2}) \\
+    &\mbox{\textbf{Axes at tip of cone}} &\hfill I_{\text{cone},x,y}=\frac{3}{80}m(4r^{2}+h^{2}) \\
+    &\mbox{\textbf{Axes at base of cone}} &\hfill I_{\text{cone},x,y}=\frac{3}{20}mr^{2}+\frac{1}{10}mh^{2} \\
+    &\mbox{\textbf{through center of hoop}} &\hfill I_{\text{hoop},z}=mr^{2} \\
+    &\mbox{\textbf{Centroid of cone up from base}} &\hfill z=\frac{h}{4} \\
+  \end{empheq}
+
+  \section*{Lagrange's Method to find EOM}
+
+  \begin{enumerate}
+    \item{Identify number of generalized coordinates and any generalized forces}
+    \item{Choose generalized coordinates $\xi_{1},\xi_{2},\dots$}
+    \item{Find kinetic energy $T$ and potential energy $V$ in terms of these generalized coordinates}
+    \item{Assemble Lagrangian}
+    \begin{equation*}
+      \boxed{\mathscr{L}=T-V}
+    \end{equation*}
+    \item{Express generalized forces in terms of the generalized coordinates}
+    \begin{equation*}
+      \begin{split}
+        \delta W&=F_{x}\delta x \\
+        \delta W&=\Xi_{j}\delta\xi_{j}
+      \end{split}
+    \end{equation*}
+    \begin{itemize}
+      \item{When finding generalized forces which require solving $\delta x$ in terms of $\delta\xi$, sometimes it is easiest to find velocities, then cancel $dt$ and make $dx$ into $\delta x$ and $d\xi$ into $\delta\xi$.}
+      \item{When breaking force $F$ into components $F_{x}$, don't forget the sign}
+      \item{Measure springs deflections from static equilibrium and gravity won't appear in equations of motion}
+      \item{When finding kinetic energy of rigid bodies, place coordinate system at CG and such that it is a set of principal axes, then the moment of inertia is \textit{about the CG} not the physical point of rotation.}
+    \end{itemize}
+    \item{Evaluate}
+    \begin{equation*}
+      \frac{\partial\mathscr{L}}{\partial\dot{\xi}_{j}}
+      \quad
+      \text{and}
+      \quad
+      \frac{\partial\mathscr{L}}{\partial\xi_{j}}
+    \end{equation*}
+    \item{Use the formula}
+    \begin{equation*}
+      \boxed{\frac{d}{dt}\left(\frac{\partial\mathscr{L}}{\partial\dot{\xi}_{j}}\right)-\frac{\partial\mathscr{L}}{\partial\xi_{j}}=\Xi_{j}}
+    \end{equation*}
+    That gives us the equations of motion
+  \end{enumerate}
+
+  \section*{Stability Analysis of Discrete Systems}
+
+  \begin{enumerate}
+    \item{Use Lagrange's method to get EOM}
+    \item{Identify steady motions}
+    \begin{itemize}
+      \item{%
+        If $\xi_{j}$ does not show up explicitly in the Lagrangian $\mathscr{L}$, it is \textit{ignorable}, or \textit{cyclic}.
+        Set
+      }
+      \begin{equation*}
+        \dot{\xi}_{\text{ignorable}}=\text{constant}
+      \end{equation*}
+      \item{%
+        If $\xi_{j}$ does show up in the Lagrangian $\mathscr{L}$, it is \textit{non-ignorable}.
+        Set
+      }
+      \begin{equation*}
+        \xi_{\text{non-ignorable}}=\xi_{s}=\text{constant}
+      \end{equation*}
+    \end{itemize}
+    \item{%
+      Linearize the equations of motion.
+      The form is
+    }
+    \begin{equation*}
+      [M]\ddot{x}+[K]x=0
+    \end{equation*}
+    \textbf{From here there are two options}
+    \item{Solve for the natural frequencies and mode shapes}
+    \begin{itemize}
+      \item{Let $\dot{x}=sx$}
+      \item{Solve $\left([M]s^{2}+[K]\right)x=0\quad\Rightarrow\quad\boxed{\det\left([K]-\omega_{i}^{2}[M]\right)=0}$}
+      \item{This is an eigenvalue problem where the eigenvalues are the natural frequencies, and the eigenvectors are the mode shapes}
+    \end{itemize}
+    \textbf{Alternatively}
+    \textit{This way requires $[M]$ and $[K]$}
+    \item{Guess as many modes $\{a\}_{i}$ as possible}
+    \item{Use orthogonality to verify guessed modes, and find new modes}
+    \begin{equation*}
+      \boxed{%
+      \begin{split}
+        \{a\}_{i}^{\top}[M]\{a\}_{j}&=0 \\
+        \{a\}_{i}^{\top}[K]\{a\}_{j}&=0 \\
+      \end{split}}
+    \end{equation*}
+    The orthogonality condition comes from left multiplying $\left([K]-\omega_{i}^{2}[M]\right)\{a\}_{i}=0$ for two cases with $i$ and $j$ by two modes which are orthogonal, $\{a\}_{j}^{\top}$ and $\{a\}_{i}^{\top}$.
+    \item{Use \textbf{Rayleigh quotient} to find $\omega_{i}$}
+    \begin{equation*}
+      \boxed{\omega_{i}^{2}=\frac{\{a\}_{i}^{\top}[K]\{a\}_{i}}{\{a\}_{i}^{\top}[M]\{a\}_{i}}}
+    \end{equation*}
+    which comes from $\left([K]-\omega_{i}^{2}[M]\right)\{a\}_{i}=0$ and left multiplying by $\{a\}_{i}^{\top}$
+  \end{enumerate}
+  For the system $[M]\{\ddot{x}\}+[K]\{x\}=\{F\}\sin\omega t$, after we find the modes, we can put the modes into a matrix $[\Phi]$ and use this matrix to come up with a new system with vector $\{u\}$, where the mass and spring matrix are diagonal.
+  Let $\{x\}=[\Phi]\{u\}$.
+  Plugging this in we get
+  \begin{equation*}
+    \underbrace{[\Phi]^{\top}[M][\Phi]}_{[M]_{D}}\{\ddot{u}\}+\underbrace{[\Phi]^{\top}[K][\Phi]}_{[K]_{D}}\{u\}=[\Phi]^{\top}\{F\}\sin\omega t
+  \end{equation*}
+
+  \section*{Derivations for Continuous Systems}
+
+  \subsection*{Wave Equation for a String}
+
+  String with mass/length $\rho$ under tension $T$.
+  So mass of a little piece is $dm=\rho dx$.
+  String has length $s$ with angle $\alpha$ on left side, $\alpha+\frac{\partial\alpha}{\partial x}dx$ on the right side, and the angle is small, so the string is approximately length $dx$.
+
+  \paragraph{Conservation of momentum in $x$-direction:} the string does not move in the $x$-direction
+  \begin{equation*}
+    T(x+dx)\cos\left(\alpha+\frac{\partial\alpha}{\partial x}dx\right)-T(x)\cos(\alpha)=0
+  \end{equation*}
+  Expanding $\cos\left(\alpha+\frac{\partial\alpha}{\partial x}dx\right)$
+  \begin{equation*}
+    \cos\left(\alpha+\frac{\partial\alpha}{\partial x}dx\right)=\cos(\alpha)\cos\left(\frac{\partial\alpha}{\partial x}dx\right)-\sin(\alpha)\sin\left(\frac{\partial\alpha}{\partial x}dx\right)
+  \end{equation*}
+  Substituting this in
+  \begin{equation*}
+    T(x+dx)\left[\cos(\alpha)\cos\left(\frac{\partial\alpha}{\partial x}dx\right)-\sin(\alpha)\sin\left(\frac{\partial\alpha}{\partial x}dx\right)\right]-T(x)\cos(\alpha)=0
+  \end{equation*}
+  Divide both sides by $dx$ and take the limit as $dx\rightarrow0$
+  \begin{equation*}
+    \boxed{T(x)=T=\text{constant}}
+  \end{equation*}
+  \paragraph{Conservation of momentum in $y$-direction:}
+  \begin{equation*}
+    T(x+dx)\sin\left(\alpha+\frac{\partial\alpha}{\partial x}dx\right)-T(x)\sin(\alpha)=\frac{d^{2}y}{dt^{2}}\rho dx
+  \end{equation*}
+  Expanding $\sin\left(\alpha+\frac{\partial\alpha}{\partial x}dx\right)$
+  \begin{equation*}
+    \sin\left(\alpha+\frac{\partial\alpha}{\partial x}dx\right)=\sin(\alpha)\cos\left(\frac{\partial\alpha}{\partial x}dx\right)+\cos(\alpha)\sin\left(\frac{\partial\alpha}{\partial x}dx\right)
+  \end{equation*}
+  Plugging in, and using the fact that $T(x)=T$ we have
+  \begin{equation*}
+    T\left[\sin(\alpha)\cos\left(\frac{\partial\alpha}{\partial x}dx\right)+\cos(\alpha)\sin\left(\frac{\partial\alpha}{\partial x}dx\right)\right]-T\sin(\alpha)=\frac{d^{2}y}{dt^{2}}\rho dx
+  \end{equation*}
+  Using small angle approximations we get
+  \begin{equation*}
+    T\left[\sin(\alpha)+\frac{\partial\alpha}{\partial x}dx\right]-T\sin(\alpha)=\frac{d^{2}y}{dt^{2}}\rho dx
+  \end{equation*}
+  Simplifying, we get
+  \begin{equation*}
+    T\frac{\partial\alpha}{\partial x}=\frac{d^{2}y}{dt^{2}}\rho
+  \end{equation*}
+  Using small angle assumption again where $\alpha\approx\tan(\alpha)=\frac{dy}{dx}$ we have
+  \begin{equation*}
+    \boxed{T\frac{\partial^{2}y}{\partial x^{2}}=\frac{d^{2}y}{dt^{2}}\rho}
+  \end{equation*}
+  Can add forcing as
+  \begin{equation*}
+    \frac{d^{2}y}{dt^{2}}\rho=T\frac{\partial^{2}y}{\partial x^{2}}+f(x,t)
+  \end{equation*}
+
+  \subsection*{Euler-Bernoulli Beam Equation}
+
+   Beam with \textbf{mass/length $\rho A$}, with \textbf{internal shear force $Q$}, \textbf{bending moment $M_{b}$}, \textbf{height $y(x,t)$}.
+   Square piece of block with shear force $Q$ down on left side, $Q+\frac{\partial Q}{\partial x}dx$ pointing up on the right side, and moments $M_{b}$ going up on the left side and $M_{b}+\frac{\partial M_{b}}{\partial x}dx$ going up on the right side.
+   The \textbf{constitutive law} for a bending beam relates moment to curvature as
+  \begin{equation*}
+    \boxed{M_{b}=EI\frac{\partial^{2}y}{\partial x^{2}}}
+  \end{equation*}
+  \textbf{Conservation of angular momentum about right side} gives
+  \begin{equation*}
+    M_{b}+\frac{\partial M_{b}}{\partial x}-M_{b}+Qdx=0
+  \end{equation*}
+  gives
+  \begin{equation*}
+    \boxed{Q=-\frac{\partial M_{b}}{\partial x}}
+  \end{equation*}
+  Substituting the constitutive law
+  \begin{equation*}
+    Q=-EI\frac{\partial^{3}y}{\partial x^{3}}
+  \end{equation*}
+  \textbf{Conservation of linear momentum in $y$-direction} gives
+  \begin{equation*}
+    (\rho Adx)\frac{\partial^{2}y}{\partial t^{2}}=\frac{\partial Q}{\partial x}dx
+  \end{equation*}
+  Evaluating $\frac{\partial Q}{\partial x}$ using the expression for $Q$ derived using conservation of angular momentum
+  \begin{equation*}
+    \frac{\partial Q}{\partial x}=-EI\frac{\partial^{4}y}{\partial x^{4}}
+  \end{equation*}
+  Substituting in
+  \begin{equation*}
+    \boxed{\rho A\frac{\partial^{2}y}{\partial t^{2}}=-EI\frac{\partial^{4}y}{\partial x^{4}}}
+  \end{equation*}
+  Self adjoint means solution is separable.
+
+  \subsection*{Longitudinal Displacement (Stretching) of a Rod}
+
+  \begin{equation*}
+    \boxed{\rho A\frac{\partial^{2}\xi}{\partial t^{2}}=EA\frac{\partial^{2}\xi}{\partial x^{2}}}
+  \end{equation*}
+
+  \subsection*{Axial Displacement (Twisting) of a Shaft}
+
+  \begin{equation*}
+    \boxed{\rho J\frac{\partial^{2}\phi}{\partial t^{2}}=GJ\frac{\partial^{2}\phi}{\partial x^{2}}}
+  \end{equation*}
+
+  \section*{Solving Continuous Systems}
+
+  \subsection*{Solving String Problems with Forcing}
+
+  To solve the forced response, always solve the unforced problem first.
+  \begin{enumerate}
+    \item{Write down governing equation}
+    \begin{equation*}
+      \boxed{\rho\frac{\partial^{2}y}{\partial t^{2}}=T\frac{\partial^{2}y}{\partial x^{2}}+f(x,t)}
+    \end{equation*}
+    \item{Propose a solution of the form}
+    \begin{equation*}
+      y(x,t)=a(x)\cos(\omega t)
+    \end{equation*}
+    where the time varying harmonic function matches that of the forcing function (including frequency)
+    \item{Plut this solution in, and obtain a simplified ODE in $a(x)$}
+    \begin{equation*}
+      -\rho\omega^{2}a(x)\cos(\omega t)=T\frac{d^{2}a}{dx^{2}}\cos(\omega t)+f(x,t)
+    \end{equation*}
+    Take for example the forcing function to be $f(x,t)=F_{0}\cos(\omega t)$ then
+    \begin{equation*}
+      -\rho\omega^{2}a(x)=T\frac{d^{2}a}{dx^{2}}+F_{0}
+    \end{equation*}
+    rearranging
+    \begin{equation*}
+      \frac{d^{2}a}{dx^{2}}+\frac{\rho\omega^{2}}{T}a(x)=-F_{0}
+    \end{equation*}
+    using $\lambda^{2}=\frac{\rho\omega^{2}}{T}$
+    \begin{equation*}
+      \frac{d^{2}a}{dx^{2}}+\lambda^{2}a(x)=-F_{0}
+    \end{equation*}
+    \item{%
+      Find the homogeneous solution $a_{h}(x)$ and particular solution $a_{p}(x)$.
+      Propose the homogeneous solution
+    }
+    \begin{equation*}
+      a(x)=Ae^{Bx}
+    \end{equation*}
+    which has second derivative
+    \begin{equation*}
+      \frac{d^{2}a}{dx^{2}}=B^{2}Ae^{Bx}
+    \end{equation*}
+    plugging in we get
+    \begin{equation*}
+      B=\pm\lambda i
+    \end{equation*}
+    So the solutions are
+    \begin{equation*}
+      \begin{split}
+        a_{1}(x)&=A_{1}e^{\lambda ix} \\
+        a_{2}(x)&=A_{2}e^{\lambda -ix}
+      \end{split}
+    \end{equation*}
+    giving
+    \begin{equation*}
+      a_{h}(x)=C_{1}\cos(\lambda x)+C_{2}\sin(\lambda x)
+    \end{equation*}
+    \item{Solution to forced equation should be constant}
+    \item{Form the total solution by adding the homogeneous and particular solutions, and apply BCs}
+  \end{enumerate}
+
+  \paragraph{Answering the question}
+  \begin{itemize}
+    \item{Determine the steady-state vibration just means find $y(x,t)$}
+    \item{Identifying resonances is to find values of $\omega$ where the solution blows up}
+  \end{itemize}
+
+  \subsection*{Solving String Problems with a Mass on them}
+
+  \textit{%
+    The governing equation for this is the same as a regular string, but the solution is not valid across mass.
+    Will need to use two solutions, one valid on each side of the mass.
+  }
+  \begin{enumerate}
+    \item{Write down governing equation}
+    \begin{equation*}
+      \rho\frac{\partial^{2}y}{\partial t^{2}}=T\frac{\partial^{2}y}{\partial x^{2}}
+    \end{equation*}
+    \item{%
+      Consider solving this equation between the left end at $x=-L$ and the mass, and then between the mass and the right end at $x=L$.
+      The general form of the solution is
+    }
+    \begin{equation*}
+      \begin{split}
+        y_{L}(x,t)&=a_{L}(x)\sin(\omega t) \\
+        y_{R}(x,t)&=a_{R}(x)\sin(\omega t) \\
+      \end{split}
+    \end{equation*}
+    Leads to
+    \begin{equation*}
+      \begin{split}
+        y_{L}(x,t)&=C_{L}\sin(\lambda x+\phi_{L})\sin(\omega t) \\
+        y_{R}(x,t)&=C_{R}\sin(\lambda x+\phi_{R})\sin(\omega t) \\
+      \end{split}
+    \end{equation*}
+    where $\lambda^{2}=\frac{\rho\omega^{2}}{T}$.
+    Should get $\phi_{L}=\lambda L$ and $\phi_{R}=-\lambda L$
+    \item{Apply 4 boundary conditions: each end of the string, and the matching conditions at the mass}
+    \begin{equation*}
+      \boxed{y_{L}(x_{m},t)=y_{R}(x_{m},t)}
+    \end{equation*}
+    and the following, which comes from \textbf{linear momentum of mass in $y$-direction}
+    \begin{equation*}
+      \boxed{M\frac{\partial^{2}y}{\partial t^{2}}\bigr|_{x_{m}}=T\left(\frac{\partial y_{R}}{\partial x}\bigr|_{x_{m}}-\frac{\partial y_{L}}{\partial x}\bigr|_{x_{m}}\right)}
+    \end{equation*}
+    Where either $y_{L}(x,t)$ or $y_{R}(x,t)$ can be used to evaluate the second derivative.
+    Use $y_{R}(x,t)$.
+    \item{Arranging these two conditions in matrix form}
+    \begin{equation*}
+      \begin{bmatrix}
+        -\sin(\lambda(x_{m}-L)) & \sin(\lambda(x_{m}+L)) \\
+        \shortstack{$-M\lambda^{2}\sin(\lambda(x_{m}-L))-$ \\ $T\lambda\cos(\lambda(x_{m}-L))$} & -T\lambda\cos(\lambda(x_{m}-L))
+      \end{bmatrix}
+      \begin{bmatrix}
+        C_{R} \\
+        C_{L}
+      \end{bmatrix}=
+      \begin{bmatrix}
+        0 \\
+        0
+      \end{bmatrix}
+    \end{equation*}
+    \item{%
+      Special case is when the mass is in the middle of the string at $x_{m}$.
+      This reduces the above by taking the determinant to
+    }
+    \begin{equation*}
+      \sin(\lambda L)\left[M\lambda^{2}\sin(\lambda L)-2T\lambda\cos(\lambda L)\right]=0
+    \end{equation*}
+    This equation can be solved to find the frequencies $\omega_{n}$ from each $\lambda_{n}$.
+    \item{Mode shapes are those when the mass is stationary}
+  \end{enumerate}
+
+  \subsection*{Solving Beam Problems}
+
+  \begin{enumerate}
+    \item{Write down governing equation}
+    \begin{equation*}
+      \boxed{\rho A\frac{\partial^{2}y}{\partial t^{2}}=-EI\frac{\partial^{4}y}{\partial x^{4}}}
+    \end{equation*}
+    \item{%
+      Propose following solution solution for beam problems.
+      Can show such a separable solution works.
+    }
+    \begin{equation*}
+      \boxed{y(x,t)=a(x)\sin(\omega t)}
+    \end{equation*}
+    The second and fourth derivatives of general solution to beam equation are
+    \begin{equation*}
+      \frac{\partial^{2}y}{\partial t^{2}}=-\omega^{2}a(x)\sin(\omega t)
+    \end{equation*}
+    \begin{equation*}
+      \frac{d^{4}y}{dx^{4}}=\frac{d^{4}a(x)}{dx^{4}}\sin(\omega t)
+    \end{equation*}
+    \item{Plugging the proposed solution into the governing equation we get}
+    \begin{equation*}
+      \boxed{\frac{d^{4}a}{dx^{4}}-\lambda^{4}a(x)=0}
+      \quad
+      \text{where}
+      \quad
+      \boxed{\lambda^{4}=\frac{\rho A\omega^{2}}{EI}}
+    \end{equation*}
+    \item{The general solution to this ODE is}
+    \begin{equation*}
+      \boxed{a(x)=C_{1}\sin\lambda x+C_{2}\cos\lambda x+C_{3}\sinh\lambda x+C_{4}\cosh\lambda x}
+    \end{equation*}
+    \item{%
+      Apply boundary conditions to solve.
+      This may reduce the number of constants, e.g. $C_{2}=C_{4}=0$.
+      Then put the remaining equations into matrix form, and solve for the constants, either by row operations or by taking the determinant
+    }
+  \end{enumerate}
+
+  \section*{Damping Problems}
+
+  \textbf{$W$ is energy loss/cycle, $V$ is peak potential energy (of whole system), $\eta$ is the loss factor}.
+  Some formulas are:
+  \begin{equation*}
+    \boxed{W=\int_{0}^{\frac{2\pi}{\omega}}f_{d}dx}
+  \end{equation*}
+  where, for a linear dashpot
+  \begin{empheq}[box=\fbox]{alignat*=3}
+    &\mbox{\textbf{Linear dashpot:}} &\hspace{0.5in} f_{d}=c\dot{x}
+  \end{empheq}
+  where $x$ is the compression of the damper.
+  This gives
+  \begin{equation*}
+    W=\int_{0}^{\frac{2\pi}{\omega}}c\frac{dx}{dt}dx \\
+  \end{equation*}
+  \begin{equation*}
+    \boxed{W=\int_{0}^{\frac{2\pi}{\omega}}c\left(\frac{dx}{dt}\right)^{2}dt}
+  \end{equation*}
+  The loss factor is calculated as
+  \begin{equation*}
+    \boxed{\eta=\frac{W}{2\pi V}}
+  \end{equation*}
+  To solve damping problems
+  \begin{enumerate}
+    \item{Do lagrangian to get EOM and find the natural frequencies and mode shapes \textit{assuming there is no damping}}
+    \item{Propose a solution of the form}
+    \begin{equation*}
+      \underline{x}(t)=\underline{a}\sin(\omega t)
+    \end{equation*}
+    \item{Use modes to break this into components}
+    \item{Differentiate this solution to get $\frac{dx}{dt}$ and plug into the integral to evaluate $W$.}
+  \end{enumerate}
+
+  \section*{Rigid Symmetric Body EOM}
+
+  \begin{equation*}
+    \underline{\omega}=\omega_{1}\hat{\underline{e}}_{1}+\omega_{2}\hat{\underline{e}}_{2}+\omega_{3}\hat{\underline{e}}_{3}
+  \end{equation*}
+  \begin{equation*}
+    \underline{H}_{c}=I_{1}\omega_{1}\hat{\underline{e}}_{1}+I_{2}\omega_{2}\hat{\underline{e}}_{2}+I_{3}\omega_{3}\hat{\underline{e}}_{3}
+  \end{equation*}
+  \begin{equation*}
+    \underline{\tau}^{\text{ext}}=\frac{d}{dt}\underline{H}_{c}
+  \end{equation*}
+  \begin{equation*}
+    \begin{split}
+      \frac{d}{dt}\underline{H}_{c}&=I_{1}(\dot{\omega}_{1}\hat{\underline{e}}_{1}-\omega_{1}\omega_{2}\hat{\underline{e}}_{3}+\omega_{1}\omega_{3}\hat{\underline{e}}_{2}) \\
+      &+I_{2}(\dot{\omega}_{2}\hat{\underline{e}}_{2}+\omega_{2}\omega_{1}\hat{\underline{e}}_{3}-\omega_{2}\omega_{3}\hat{\underline{e}}_{1}) \\
+      &+I_{3}(\dot{\omega}_{3}\hat{\underline{e}}_{3}-\omega_{3}\omega_{1}\hat{\underline{e}}_{2}+\omega_{3}\omega_{2}\hat{\underline{e}}_{1})
+    \end{split}
+  \end{equation*}
+  Set this equal to $\underline{\tau}^{\text{ext}}$ and group components together to get EOM.\@
+  Can simplify with symmetry, e.g. $I_{1}=I_{2}$.
+  \begin{equation*}
+    \begin{split}
+      \tau_{1}&=I_{1}\dot{\omega}_{1}+\omega_{2}\omega_{3}(I_{3}-I_{2}) \\
+      \tau_{2}&=I_{2}\dot{\omega}_{2}+\omega_{1}\omega_{3}(I_{1}-I_{3}) \\
+      \tau_{3}&=I_{3}\dot{\omega}_{3}+\omega_{1}\omega_{2}(I_{2}-I_{1})
+    \end{split}
+  \end{equation*}
+
+  \section*{Euler Angles}
+
+  Start with coordinate system $C_{XYZ}$.
+  Rotate $\phi$ about $Z$ and get $C_{abc}$ axes, then rotate $\theta$ about $a$ and get $C_{xyz}$, and finally rotate $\psi$ about $z$ to get $C_{123}$ axes, which are the body fixed axes.
+  \begin{equation*}
+    \begin{split}
+      \underline{\omega}&=\dot{\phi}\hat{\underline{e}}_{Z}+\dot{\theta}\hat{\underline{e}}_{x}+\dot{\psi}\hat{\underline{e}}_{3} \\
+      &=\omega_{1}\hat{\underline{e}}_{1}+\omega_{2}\hat{\underline{e}}_{2}+\omega_{3}\hat{\underline{e}}_{3}
+    \end{split}
+  \end{equation*}
+  where
+  \begin{equation*}
+    \begin{split}
+      \omega_{1}&=\dot{\theta}\cos\psi+\dot{\phi}\sin\theta\sin\psi \\
+      \omega_{2}&=\dot{\phi}\sin\theta\cos\psi-\dot{\theta}\sin\psi \\
+      \omega_{3}&=\dot{\psi}+\dot{\phi}\cos\theta
+    \end{split}
+  \end{equation*}
+
+  \subsection*{Torque-Free Precession}
+
+  When there is \textbf{no torque} acting on the system, angular momentum principle $\frac{d}{dt}\underline{H}_{C}=0$ tells us that \textbf{$\underline{H}_{C}$ is constant}, and since it is a vector this means its magnitude and direction are constant.
+  So, we can \textbf{choose the coordinate system $C_{XYZ}$ such that the $Z$ axis is aligned with $\underline{H}_{C}$}.
+  \begin{equation*}
+    \begin{split}
+      \underline{H}_{C}&=H_{C}\hat{\underline{e}}_{Z} \\
+      &=H_{C}(\sin\theta\hat{\underline{e}}_{y}+\cos\theta\hat{\underline{e}}_{z}) \\
+      &=H_{C}(\sin\theta\sin\psi\hat{\underline{e}}_{1}+\sin\theta\cos\psi\hat{\underline{e}}_{2}+\cos\theta\hat{\underline{e}}_{3})
+    \end{split}
+  \end{equation*}
+  Compare this expression for $\underline{H}_{C}$ to the earlier one
+  \begin{equation*}
+    \underline{H}_{C}=I_{1}\omega_{1}\hat{\underline{e}}_{1}+I_{2}\omega_{2}\hat{\underline{e}}_{2}+I_{3}\omega_{3}\hat{\underline{e}}_{3}
+  \end{equation*}
+  Components have to match exactly.
+  This gives
+  \begin{equation*}
+    \begin{split}
+      \dot{\phi}&=H_{C}\left(\frac{\sin^{2}\psi}{I_{1}}+\frac{\cos^{2}\psi}{I_{2}}\right) \\
+      \dot{\theta}&=H_{C}\left(\frac{1}{I_{1}}-\frac{1}{I_{2}}\right)\sin\theta\cos\psi\sin\psi \\
+      \dot{\psi}&=H_{C}\cos\theta\left(\frac{1}{I_{3}}-\frac{\sin^{2}\psi}{I_{1}}-\frac{\cos^{2}\psi}{I_{2}}\right)
+    \end{split}
+  \end{equation*}
+  If the body has \textbf{symmetry}, say \textbf{about 3 axis, then $I_{1}=I_{2}=I$} and we can see from these expressions that $\dot{\theta}=\theta_{s}=\text{constant}$, that $\dot{\phi}=\frac{H_{C}}{I}=\Omega=\text{constant}$, and $\dot{\psi}=[(I-I_{3})/I_{3}]\Omega\cos\theta_{s}=\text{constant}$.
+  \textbf{This is torque-free precession.}
+
+  \subsection*{Spinning Top with Euler Angles}
+
+  \begin{itemize}
+    \item{Use LaGrange to get EOM, neglecting $\underline{v}_{C}$}
+    \item{Using Euler angles for $\underline{\omega}$ in Lagrange $\underline{\omega}=\dot{\phi}\hat{\underline{e}}_{Z}+\dot{\theta}\hat{\underline{e}}_{x}+\dot{\psi}\hat{\underline{e}}_{3}$}
+    Describe in terms of $C_{xyz}$ with
+    $\hat{\underline{e}}_{Z}=\sin\theta\hat{\underline{e}}_{z}+\cos\theta\hat{\underline{e}}_{y}$
+    $\hat{\underline{e}}_{3}=\hat{\underline{e}}_{z}$
+    $\underline{\omega}=\dot{\phi}\sin\theta\hat{\underline{e}}_{z}+\dot{\phi}\cos\theta\hat{\underline{e}}_{y}+\dot{\theta}\hat{\underline{e}}_{x}+\dot{\psi}\hat{\underline{e}}_{z}$
+    \item{Do Lagrange, identify from $\delta\psi$ equation $I_{3}\omega_{z}=\text{constant}$ $\omega_{z}\approx\dot{\psi}$}
+  \end{itemize}
+
+  \subsection*{Torque-Free Motion of a Rigid Body}
+
+  \begin{equation*}
+    \begin{split}
+      \underline{\omega}&=\phi\hat{\underline{e}}_{Z}+\dot{\psi}\hat{\underline{e}}_{z} \\
+      &=\Omega\sin\theta_{s}\hat{\underline{e}}_{y}+(\dot{\psi}+\Omega\cos\theta_{s})\hat{\underline{e}}_{z}
+    \end{split}
+  \end{equation*}
+
+  \begin{equation*}
+    \begin{split}
+      \underline{H}_{C}&=I\omega_{y}\hat{\underline{e}}_{y}+I_{3}\omega_{z}\hat{\underline{e}}_{z} \\
+      &=I\Omega\sin\theta_{s}\hat{\underline{e}}_{y}+I_{3}(\dot{\psi}+\Omega\cos\theta_{s})\hat{\underline{e}}_{z} \\
+      &=I\Omega(\sin\theta_{s}\hat{\underline{e}}_{y}+\cos\theta_{s}\hat{e}_{z}) \\
+      &=I\Omega\hat{\underline{e}}_{Z}
+    \end{split}
+  \end{equation*}
+  If we evaluate $\frac{d}{dt}\underline{H}_{C}$ we can solve for the rate of change of the angular rates as
+  \begin{equation*}
+    \begin{split}
+      \dot{\omega}_{1}&=\frac{I_{2}-I_{3}}{I_{1}}\omega_{2}\omega_{3} \\
+      \dot{\omega}_{2}&=\frac{I_{3}-I_{1}}{I_{2}}\omega_{3}\omega_{1} \\
+      \dot{\omega}_{3}&=\frac{I_{1}-I_{2}}{I_{3}}\omega_{1}\omega_{2} \\
+    \end{split}
+  \end{equation*}
+  We have with no torque that $\underline{H}_{C}=I_{3}(\dot{\psi}+\dot{\phi})$ is constant and $\underline{\omega}=(\dot{\psi}+\dot{\phi})\hat{\underline{e}}_{z}$.
+  Choose $\underline{H}_{C}$ to be parallel to $\hat{\underline{e}}_{Z}$.
+  Use Euler equations to examine stability of steady rotation.
+  $\omega=\omega_{3}\hat{\underline{e}}_{3}$.
+  So $\dot{\omega}_{1}$ and $\dot{\omega}_{2}$ are basically constant, giving
+  \begin{equation*}
+    \ddot{\omega}_{1}+\frac{(I_{1}-I_{3})(I_{2}-I_{3})}{I_{1}I_{2}}\omega_{3}^{2}\omega_{1}=0
+  \end{equation*}
+  and this is stable when $(I_{1}-I_{3})(I_{2}-I_{3})>0$ and unstable when $(I_{1}-I_{3})(I_{2}-I_{3})<0$.
+  So stable when $I_{3}$ is either a maximum or minimum moment of inertia.
+
+  \section*{General Math Stuff}
+
+  Taylor series
+  \begin{equation*}
+    f(x)\approx f(a)+\frac{f'(a)}{1!}(x-a)+\frac{f''(a)}{2!}(x-a)^{2}+\dots
+  \end{equation*}
+  Using this for sine and cosine, small angles
+  \begin{equation*}
+    \begin{split}
+      \cos(x)&=1-\frac{1}{2}x^{2} \\
+      \sin(x)&=x-\frac{x^{3}}{6}
+    \end{split}
+  \end{equation*}
+
+  \subsection*{Identities}
+
+  \begin{equation*}
+    \begin{split}
+      \sin(u\pm v)&=\sin u\cos v\pm \cos u\sin v \\
+      \cos(u\pm v)&=\cos u\cos v\mp \sin u\sin v \\
+      e^{ix}&=\cos x+i\sin x \\
+      \sinh(x)&=\frac{1}{2}(e^{x}-e^{-x}) \\
+      \cosh(x)&=\frac{1}{2}(e^{x}+e^{-x}) \\
+      \sin(x)&=\frac{1}{2i}(e^{ix}-e^{-ix}) \\
+      \cos(x)&=\frac{1}{2}(e^{ix}+e^{-ix}) \\
+      \sinh(x)+\cosh(x)&=e^{x} \\
+      \frac{d}{dx}\sinh(x)&=\cosh(x) \\
+      \frac{d}{dx}\cosh(x)&=\sinh(x)
+    \end{split}
+  \end{equation*}
+
+  \begin{equation*}
+    \sinh(0)=0
+    \qquad
+    \cosh(0)=1
+  \end{equation*}
+
+  \subsection*{Integrals}
+
+  \begin{equation*}
+    \begin{split}
+      \int\sin^{2}(ax)dx&=\frac{x}{2}-\frac{\sin(2ax)}{4a} \\
+      \int\cos^{2}(ax)dx&=\frac{x}{2}+\frac{\sin(2ax)}{4a}
+    \end{split}
+  \end{equation*}
+
+  Writing sum of $\sin$ and $\cos$ as $\sin$ with a phase shift
+  \begin{equation*}
+    A_{1}\sin(\omega x)+A_{2}\cos(\omega x)=\sqrt{A_{1}^{2}+A_{2}^{2}}\left(\underbrace{\frac{A_{1}}{\sqrt{A_{1}^{2}+A_{2}^{2}}}}_{\cos\phi}\sin(\omega x)+\underbrace{\frac{A_{2}}{\sqrt{A_{1}^{2}+A_{2}^{2}}}}_{\sin\phi}\cos(\omega x)\right)
+  \end{equation*}
+  Can check that $\sin^{2}\phi+\cos^{2}\phi=1$.
+  Then use identity $\sin(\omega x+\phi)=\sin(\omega x)\cos\phi+\cos(\omega x)\sin\phi$ giving
+  \begin{equation*}
+    A_{1}\sin(\omega x)+A_{2}\cos(\omega x)=A_{3}\sin(\omega x+\phi)
+  \end{equation*}
+  \begin{equation*}
+    \frac{\sin\phi}{\cos\phi}=\frac{A_{2}}{A_{1}}\Rightarrow\phi=\tan^{-1}\frac{A_{2}}{A_{1}}
+    \qquad\text{and}\qquad
+    A_{3}=\sqrt{A_{1}^{2}+A_{2}^{2}}
+  \end{equation*}
+
+  \clearpage
+
+  \section*{Wave Equation on String}
+
+  \noindent This page gives an outline of the general procedure to \textbf{derive the equations of motion}, \textbf{propose a general solution}, and \textbf{solve for constants using boundary and initial conditions} (here we assume the boundary conditions are both ends fixed, and zero initial conditions) in order to get the \textbf{mode shapes} and \textbf{natural frequencies.}
+
+  \textbf{Physical assumptions:} \textit{homogenous string $\rho A=\text{constant}$, the string is perfectly elastic (no resistance to bending), the tension is way more than gravity, and string only vibrates perfectly up and down.}
+
+  Non dispersive waves: anything that obeys the wave equation, e.g.\ a string, the speed of wave propagation is constant and independent of frequency.
+  All energy travels the same speed independent of frequency.
+  $\frac{T}{\rho A}$ is the wave speed.
+  $\sqrt{\frac{T}{\rho A}}$ is phase velocity.
+  In beams non dispersive waves, the high frequency waves travel ahead of the lower frequency waves.
+
+  \begin{enumerate}
+    \setlength{\itemsep}{0pt}
+    \item{\textbf{Derive governing equation}}
+    \begin{enumerate}
+      \setlength{\itemsep}{0pt}
+      \item{Momentum in $x$-direction gives $T(x)$ is constant}
+      \item{Do momentum in the $y$-direction}
+      \item{Use small angles: $\sin(\alpha+\frac{\partial\alpha}{\partial x}dx)=\alpha+\frac{\partial\alpha}{\partial x}dx$ and $\tan(\alpha)=\alpha$}
+    \end{enumerate}
+    The governing equation is $\boxed{T\frac{\partial^{2}y}{\partial x^{2}}=\rho A\frac{\partial^{2}y}{\partial t^{2}}}$
+    \item{\textbf{Propose a general separable solution} $\boxed{y(x,t)=a(x)f(t)}$}
+    \begin{enumerate}
+      \setlength{\itemsep}{0pt}
+      \item{Rearrange the governing equation as $C^{2}\frac{\partial^{2}y}{\partial x^{2}}=\frac{\partial^{2}y}{\partial t^{2}}$ where $\boxed{C^{2}=\frac{T}{\rho A}}$ and propose $f(t)=Ae^{i\omega_{n}t}$ giving $y(x,t)=a(x)Ae^{i\omega_{n}t}$ and plug in}
+      \item{The governing equation becomes $\boxed{C^{2}\frac{\partial^{2}a}{\partial x^{2}}+\omega_{n}^{2}a(x)=0}$ \textit{note: $C$ is always positive}}
+      \item{Propose $a(x)=Be^{i\lambda x}$ and get $\omega_{n}=C\lambda$}
+      \item{The total solution is then $\boxed{y(x,t)=Be^{i\frac{\omega_{n}}{C} x}Ae^{i\omega_{n}t}}$ which can be decomposed into sine and cosine as $y(x,t)=(B_{1}\sin(\lambda x)+B_{2}\cos(\lambda x))(A_{1}\sin(\omega_{n}t)+A_{2}\cos(\omega_{n}t))$}
+    \end{enumerate}
+    \item{\textbf{Apply boundary and initial conditions} to get the constants}
+    \begin{enumerate}
+      \setlength{\itemsep}{0pt}
+      \item{%
+        Apply boundary conditions $y(x=0,t)=y(x=L,t)=0$ gives $B_{2}=0$ and $B_{1}\sin(\frac{\omega_{n}}{C}L)=0$ so $\frac{\omega_{n}}{C}L=n\pi$ where $n=1,2,3\dots$.
+        So $\omega_{n}=\frac{Cn\pi}{L}$.
+        The solution becomes $y(x,t)=B_{1}\sin(\frac{\omega_{n}}{C}x)(A_{1}\sin(\omega_{n}t)+A_{2}\cos(\omega_{n}t))$
+      }
+      \item{Apply initial conditions $y(x,t=0)=0$ gives $A_{2}=0$ reducing solution to $y(x,t)=B_{1}\sin(\frac{\omega_{n}}{C}x) A_{1}\sin(\omega_{n}t)$ or by combining the constants $\boxed{y(x,t)=C_{n}\sin(\frac{\omega_{n}}{C}x)\sin(\omega_{n}t)}$}
+    \end{enumerate}
+    \item{Now we have the governing equation, now we see if it is \textbf{self-adjoint} if it satisfies the following conditions}
+    \begin{enumerate}[label=\roman*)] % chktex 9 chktex 10
+      \setlength{\itemsep}{0pt}
+      \item{$\boxed{\int u\rho Avdx=\int v\rho Audx}$}
+      \item{$\boxed{\int v\left(-T\frac{\partial^{2}}{\partial x^{2}}\right)udx=\int u\left(-T\frac{\partial^{2}}{\partial x^{2}}\right)vdx}$}
+    \end{enumerate}
+    The first condition is satisfied automatically, since $u$ and $v$ (in our case $a(x)$ and $f(t)$) commute.
+    We show that the second condition holds by doing integration by parts twice.
+    \begin{equation*}
+      \int_{0}^{L}\underbrace{a_{i}}_{u}\underbrace{\left(-T\frac{\partial^{2}}{\partial x^{2}}\right)a_{j}dx}_{dv}=\underbrace{a_{i}}_{u}\underbrace{\left(-T\frac{\partial}{\partial x}(a_{j})\right)}_{v}\biggr|_{0}^{L}+\int_{0}^{L}\underbrace{T\frac{\partial}{\partial x}(a_{j})}_{v}\underbrace{\frac{da_{i}}{dx}dx}_{du}
+    \end{equation*}
+    one more integration by parts
+    \begin{equation*}
+      \int_{0}^{L}\underbrace{\frac{da_{i}}{dx}}_{u}\underbrace{T\frac{\partial}{\partial x}(a_{j})dx}_{dv}=\underbrace{\frac{da_{i}}{dx}}_{u}\underbrace{(-Ta_{j})}_{v}\biggr|_{0}^{L}+\int_{0}^{L}\underbrace{Ta_{j}}_{v}\underbrace{\frac{d^{2}a_{i}}{dx^{2}}dx}_{du}
+    \end{equation*}
+    gives
+    \begin{equation*}
+      \int_{0}^{L}a_{i}\left(-T\frac{\partial^{2}}{\partial x^{2}}\right)a_{j}dx=a_{i}\left(-T\frac{\partial}{\partial x}(a_{j}\right)\biggr|_{0}^{L}-\left(\frac{da_{i}}{dx}(-Ta_{j})\right)\biggr|_{0}^{L}+\int_{0}^{L}a_{j}\left(-T\frac{\partial^{2}}{\partial x^{2}}(a_{i})\right)dx
+    \end{equation*}
+    and since we evaluate the first two terms on the right hand side at $x=0$ and $x=L$, the boundary conditions dictate that $a_{i}=a_{j}=0$ here, thus proving the system is \textbf{self-adjoint}.
+    \textit{Self-adjointness depends on the boundary conditions.}
+    \item{Now we use the self adjoint property to show that the modes are \textbf{orthogonal}, where $a_{j}$ and $a_{i}$ are orthogonal functions if they satisfy}
+    \begin{equation*}
+      \boxed{\int_{0}^{L}a_{j}a_{i}dx=0}
+    \end{equation*}
+    \begin{enumerate}
+      \item{Start with the \textbf{governing equation} for the \textbf{spatial function} for two different modes $a_{i}$ and $a_{j}$, where $i\neq j$.}
+      \begin{equation*}
+        C^{2}\frac{\partial^{2}a}{\partial x^{2}}+\omega_{n}^{2}a(x)=0
+      \end{equation*}
+      \item{Since the governing equation equals zero, we can post-multiply each of these expressions by the \textit{other mode}, sum them, and it is still zero.}
+      \begin{equation*}
+        \left(C^{2}\frac{\partial^{2}a_{i}}{\partial x^{2}}+\omega_{n}^{2}a_{i}(x)\right)a_{j}+
+        \left(C^{2}\frac{\partial^{2}a_{j}}{\partial x^{2}}+\omega_{n}^{2}a_{j}(x)\right)a_{i}=0
+      \end{equation*}
+      \item{%
+        Expand this expression and \textbf{integrate from $0$ to $L$}.
+        Using the self-adjoint property which we just showed, we get
+      }
+      \begin{equation*}
+        \boxed{\frac{1}{C^{2}}\left(\omega_{i}^{2}-\omega_{j}^{2}\right)\int_{0}^{L}a_{i}a_{j}dx=0}
+      \end{equation*}
+      \item{Since the natural frequencies corresponding to each of these modes is different, the integral must be zero, satisfying the definition and showing the modes are orthogonal.}
+    \end{enumerate}
+    \item{To find the \textbf{$i$-th modal mass} and \textbf{$i$-th modal stiffness}, write down the governing \textit{spatial} differential equation $T\frac{\partial^{2}a}{\partial x^{2}}+\rho A\omega_{n}^{2}a(x)=0$ for a mode $a_{i}$ and multiply both sides by $a_{i}$ and $dx$, rearrange and integrate from $0$ to $L$.}
+    \begin{equation*}
+      a_{i}\left(T\frac{\partial^{2}a_{i}}{\partial x^{2}}\right)dx+\rho A\omega_{n}^{2}a_{i}^{2}(x)dx=0
+    \end{equation*}
+    giving the $i$-th modal mass and $i$-th modal stiffness as
+    \begin{equation*}
+      \omega_{n}^{2}\underbrace{\rho A\int_{0}^{L}a_{i}^{2}(x)dx}_{m_{i}\delta_{ij}}=\underbrace{\int_{0}^{L}a_{i}\left(-T\frac{\partial^{2}a_{i}}{\partial x^{2}}\right)dx}_{k_{i}\delta_{ij}}
+    \end{equation*}
+    And we can divide and solve for $\omega_{R}$, which are regular modes? which gives the Rayleigh quotient.
+    \begin{equation*}
+      \omega_{R}^{2}
+      =\frac{\int_{0}^{L}a_{i}\left(-T\frac{\partial^{2}a_{i}}{\partial x^{2}}\right)dx}{\rho A\int_{0}^{L}a_{i}^{2}(x)dx}
+      =\frac{k_{i}\delta_{ij}}{m_{i}\delta_{ij}}
+    \end{equation*}
+  \end{enumerate}
+
+  \subsection*{Modal Decomposition}
+
+  When the string problem is forced, the governing equation is
+  \begin{equation*}
+    \boxed{\rho A\frac{\partial^{2}y}{\partial t^{2}}-T\frac{\partial^{2}y}{\partial x^{2}}=f_{0}(x)\sin\Omega t}
+  \end{equation*}
+  We propose the same separable solution as before, where we make explicit that there are an infinite number of solutions, indexed by $i$, and the total solution is the sum
+  \begin{equation*}
+    y(x,t)=\sum_{i}a_{i}(x)f_{i}(t)
+  \end{equation*}
+  Plugging this into the governing equation we get
+  \begin{equation*}
+    \sum_{i}\left(\rho Aa_{i}(x)\frac{\partial^{2}f_{i}}{\partial t^{2}}-f_{i}(t)T\frac{\partial^{2}a_{i}}{\partial x^{2}}\right)=f_{0}(x)\sin\Omega t
+  \end{equation*}
+  Left multiply by $a_{i}$ and integrate across the beam from $0$ to $L$
+  \begin{equation*}
+    \sum_{i}\left(\int_{0}^{L}\rho Aa_{i}^{2}(x)\frac{\partial^{2}f_{i}}{\partial t^{2}}dx-\int_{0}^{L}a_{i}(x)T\frac{\partial^{2}a_{i}}{\partial x^{2}}f_{i}(t)dx\right)=\int_{0}^{L}a_{i}f_{0}(x)\sin\Omega tdx
+  \end{equation*}
+  giving
+  \begin{equation*}
+    \sum_{i}\left(\frac{\partial^{2}f_{i}}{\partial t^{2}}\underbrace{\int_{0}^{L}\rho Aa_{i}^{2}(x)dx}_{m_{i}\delta_{ij}}+f_{i}(t)\underbrace{\int_{0}^{L}-a_{i}(x)T\frac{\partial^{2}a_{i}}{\partial x^{2}}dx}_{k_{i}\delta_{ij}}\right)=\int_{0}^{L}a_{i}f_{0}(x)\sin\Omega tdx
+  \end{equation*}
+  giving
+  \begin{equation*}
+    \frac{\partial^{2}f_{i}}{\partial t^{2}}m_{i}\delta_{ij}+k_{i}\delta_{ij}f_{i}(t)=\sin\Omega t\int_{0}^{L}a_{i}f_{0}(x)dx
+  \end{equation*}
+  Solving for $f_{i}(t)$
+  \begin{equation*}
+    k_{i}f_{i}(t)=\sin\Omega t\int_{0}^{L}a_{i}f_{0}(x)dx-\frac{\partial^{2}f_{i}}{\partial t^{2}}m_{i}
+  \end{equation*}
+
+  \begin{equation*}
+  f_{i}(t)=\frac{\int_{0}^{L}a_{i}(x)f_{0}(x)dx}{k_{i}}\sin\Omega t-\frac{\frac{\partial^{2}f_{i}}{\partial t^{2}}m_{i}}{k_{i}}
+  \end{equation*}
+
+  \subsection*{Boundary Conditions}
+
+  \paragraph{Rollers at End with Spring}
+  \begin{equation*}
+    \boxed{T\frac{dy}{dx}=ky}
+  \end{equation*}
+
+  \clearpage
+
+  \section*{Euler-Bernoulli Beam Equation}
+
+  \subsection*{Proposing Separable Solution}
+
+  Given the governing PDE for a bending beam
+  \begin{equation*}
+    \boxed{\rho A\frac{\partial^{2}y}{\partial t^{2}}=-EI\frac{\partial^{4}y}{\partial x^{4}}}
+  \end{equation*}
+  we propose a solution of the form
+  \begin{equation*}
+    \boxed{y(x,t)=a(x)y(t)}
+  \end{equation*}
+  Evaluating the necessary derivatives given this solution form we get
+  \begin{equation*}
+    \frac{\partial^{2}y}{\partial t^{2}}=a(x)\frac{d^{2}f}{dt^{2}}
+    \qquad
+    \text{and}
+    \qquad
+    \frac{\partial^{4}y}{\partial x^{4}}=\frac{d^{4}a}{dx^{4}}f(t)
+  \end{equation*}
+  substituting in
+  \begin{equation*}
+    \rho Aa(x)\frac{d^{2}f}{dt^{2}}=-EI\frac{d^{4}a}{dx^{4}}f(t)
+  \end{equation*}
+  which can be separated as
+  \begin{equation*}
+    \rho A\frac{1}{f(t)}\frac{d^{2}f}{dt^{2}}=-EI\frac{1}{a(x)}\frac{d^{4}a}{dx^{4}}=\text{constant}
+  \end{equation*}
+  And so now we can solve each ODE separately now.
+  This leads to a solution of the form
+  \begin{equation*}
+    \boxed{y(x,t)=a(x)\sin\omega(t)}
+  \end{equation*}
+  Plugging this back into the governing equation, we reduce the equation to an ODE and then only have to find $a(x)$
+  \begin{equation*}
+    \boxed{\frac{d^{4}a}{dx^{4}}-\lambda^{4}a(x)=0}
+    \quad
+    \text{where}
+    \quad
+    \boxed{\lambda^{4}=\frac{\rho A\omega^{2}}{EI}}
+  \end{equation*}
+
+  \subsection*{Self-Adjointness}
+
+  Now we have the governing equation for beams, now we see if it is \textbf{self-adjoint} if it satisfies the following conditions
+  \begin{enumerate}[label=\roman*)] % chktex 9 chktex 10
+    \setlength{\itemsep}{0pt}
+    \item{$\boxed{\int u\rho Avdx=\int v\rho Audx}$}
+    \item{$\boxed{EI\int u\frac{d^{4}v}{dx^{4}}dx=EI\int v\frac{d^{4}u}{dx^{4}}dx}$}
+  \end{enumerate}
+  where the integrals are evaluated from one end of the beam to the other, usually $0$ to $L$.
+  The first condition is trivial, and we can show the second condition holds by applying integration by parts.
+  Additionally, from doing this integration, we also find the following relationship
+  \begin{equation*}
+    \boxed{\int_{0}^{L}v\frac{d^{4}u}{dx^{4}}dx=\int_{0}^{L}\frac{d^{2}u}{dx^{2}}\frac{d^{2}v}{dx^{2}}dx}
+  \end{equation*}
+
+  \subsection*{Orthogonality}
+
+  To show \textbf{orthogonality} of the modes, start with the spatial governing equation for two modes $a_{i}$ and $a_{j}$ with $i\neq j$
+  \begin{equation*}
+    \boxed{EI\frac{d^{4}a_{i}}{dx^{4}}-\rho A\omega^{2}a_{i}(x)=0}
+  \end{equation*}
+  \begin{equation*}
+    \boxed{EI\frac{d^{4}a_{j}}{dx^{4}}-\rho A\omega^{2}a_{j}(x)=0}
+  \end{equation*}
+  Left multiply the first equation by $a_{j}$ and the second by $a_{i}$.
+  Integrate across the beam (from $0$ to $L$) and subtract
+  \begin{equation*}
+    EI\int_{0}^{L}a_{j}\frac{d^{4}a_{i}}{dx^{4}}dx-\rho A\omega^{2}\int_{0}^{L}a_{j}a_{i}dx-
+    EI\int_{0}^{L}a_{i}\frac{d^{4}a_{j}}{dx^{4}}dx+\rho A\omega^{2}\int_{0}^{L}a_{i}a_{j}dx=0
+  \end{equation*}
+  Use self-adjointness to cancel out terms, giving
+  \begin{equation*}
+    \rho A\omega^{2}\int_{0}^{L}a_{i}a_{j}dx=\rho A\omega^{2}\int_{0}^{L}a_{j}a_{i}dx
+  \end{equation*}
+  Thus showing the modes are orthogonal.
+
+  \subsection*{Finding $i$-th Modal Mass and Stiffness}
+
+  To find the $i$-th modal mass and stiffness, again use the spatial governing ODE for mode $a_{i}$
+  \begin{equation*}
+    EI\frac{d^{4}a_{i}}{dx^{4}}-\rho A\omega^{2}a_{i}(x)=0
+  \end{equation*}
+  left multiply by $a_{i}$, and integrate across the beam from $0$ to $L$
+  \begin{equation*}
+    EI\int_{0}^{L}a_{i}\frac{d^{4}a_{i}}{dx^{4}}dx-\rho A\omega^{2}\int_{0}^{L}a_{i}^{2}(x)dx=0
+  \end{equation*}
+  use the additional property from self-adjointness to replace the fourth derivative as the product of two second derivatives
+  \begin{equation*}
+    \underbrace{EI\int_{0}^{L}\left(\frac{d^{2}a_{i}}{dx^{2}}\right)^{2}dx}_{k_{i}\delta_{ij}}-\omega^{2}\underbrace{\rho A\int_{0}^{L}a_{i}^{2}(x)dx}_{m_{i}\delta_{ij}}=0
+  \end{equation*}
+  where $k_{i}$ and $m_{i}$ are the $i$-th modal stiffness and mass, respectively.
+  From this we can find $\omega$ as
+  \begin{equation*}
+    \omega^{2}=\frac{k_{i}\delta_{ij}}{m_{i}\delta_{ij}}
+  \end{equation*}
+
+  \subsection*{Boundary Conditions}
+
+  \paragraph{Free End}
+  \textbf{No moment, no shear.}
+
+  \paragraph{Fixed or Clamped End}
+  \textbf{Displacement and slope are zero.}
+
+  \paragraph{Pinned End}
+  \textbf{No displacement, no moment.} Remember $M_{b}=EI\frac{\partial^{2}y}{\partial x^{2}}$ so for pinned end this means the second derivative must be zero.
+
+  \paragraph{Point Mass at End}
+  \textbf{No moment}, external shear due to mass boundary condition, from conservation of linear momentum in $y$-direction.
+  \begin{equation*}
+    \boxed{-Q=m\frac{\partial^{2}y}{\partial t^{2}}}
+  \end{equation*}
+
+  \paragraph{Applied moment}
+  From $M_{b}=EI\frac{\partial^{2}y}{\partial x^{2}}$, the boundary condition due to $M_{\text{applied}}$ is
+  \begin{equation*}
+    \boxed{\frac{\partial^{2}y}{\partial x^{2}}=\frac{1}{EI}M_{\text{applied}}}
+  \end{equation*}
+
+  \subsection*{Forced Beam Response}
+
+  To solve the forced response, always solve the unforced problem first.
+
+  \begin{equation*}
+    y(x,t)=\sum_{i}a_{i}(x)f_{i}(t)
+  \end{equation*}
+
+  \begin{equation*}
+    \sum_{i}\left(EI\frac{d^{4}a_{i}}{dx^{4}}f_{i}+\rho Aa_{i}\frac{d^{2}f_{i}}{dt^{2}}\right)=f_{0}\sin(\Omega t)
+  \end{equation*}
+
+  \begin{equation*}
+    \int_{0}^{L}a_{j}\left[\sum_{i}\left(EI\frac{d^{4}}{dx^{4}}f_{i}+\rho Aa_{i}\frac{d^{2}f_{i}}{dt^{2}}\right)=f_{0}\sin(\Omega t)\right]dx
+  \end{equation*}
+  using orthogonality of modes (ith modal mass and stiffness?)
+
+  \begin{equation*}
+    k_{j}f_{j}+m_{j}\frac{d^{2}f_{j}}{dt^{2}}=\int_{0}^{L}a_{j}f_{0}\sin(\Omega t)dx
+  \end{equation*}
+
+  The solution is
+  \begin{equation*}
+    f_{j}(t)=\frac{\int_{0}^{L}a_{j}(x)dx}{m_{j}(\omega_{j}^{2}-\Omega)}f_{0}\sin(\Omega t)+C_{j}\sin(\omega_{j}t+B_{j})
+  \end{equation*}
+  Find $C_{j}$ and $B_{j}$ by applying initial conditions.
+
+\end{document}
